@@ -1,3 +1,6 @@
+from turtle import window_height
+
+
 class InfoMessage:
     """Информационное сообщение о тренировке."""
     training_type: str
@@ -11,11 +14,11 @@ class InfoMessage:
                  distance: float,
                  speed: float,
                  calories: float) -> None:
-        self.training_type
-        self.duration
-        self.distance
-        self.speed
-        self.calories
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
     
     def get_message(self) -> str:
         """Возвращает строку сообщения."""
@@ -28,21 +31,31 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
-
+    action: int
+    duration: float
+    weight: float
+    LEN_STEP: float 
+    M_IN_KM: int 
     def __init__(self,
                  action: int,
                  duration: float,
                  weight: float,
+                 LEN_STEP: float,
+                 M_IN_KM: int 
                  ) -> None:
-        pass
+        self.action = action
+        self.duration = duration
+        self.weight = weight
+        self.LEN_STEP = LEN_STEP
+        self.M_IN_KM = M_IN_KM
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        pass
+        return self.action * self.LEN_STEP / self.M_IN_KM  
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        pass
+        return self.get_distance() / self.duration
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -50,7 +63,12 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        pass
+        return InfoMessage(self.__class__.__name__,
+                           self.duration,
+                           self.get_distance(),
+                           self.get_mean_speed(),
+                           self.get_spent_calories()
+        )
 
 
 class Running(Training):
