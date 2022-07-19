@@ -1,4 +1,5 @@
 from dataclasses import asdict, dataclass
+from typing import Dict, Type
 
 
 @ dataclass
@@ -11,16 +12,16 @@ class InfoMessage:
     calories: float
 
     MSG_STRING: str = (
-        'Тип тренировки: {}; '
-        'Длительность: {:.3f} ч.; '
-        'Дистанция: {:.3f} км; '
-        'Ср. скорость: {:.3f} км/ч; '
-        'Потрачено ккал: {:.3f}.'
+        'Тип тренировки: {training_type}; '
+        'Длительность: {duration:.3f} ч.; '
+        'Дистанция: {distance:.3f} км; '
+        'Ср. скорость: {speed:.3f} км/ч; '
+        'Потрачено ккал: {calories:.3f}.'
     )
 
     def get_message(self) -> str:
         """Получить строку сообщения."""
-        return self.MSG_STRING.format(*asdict(self).values())
+        return self.MSG_STRING.format(**asdict(self))
 
 
 class Training:
@@ -28,6 +29,7 @@ class Training:
 
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
+    MIN_IN_H: int = 60
 
     def __init__(self,
                  action: int,
@@ -72,12 +74,11 @@ class Running(Training):
 
     def get_spent_calories(self) -> float:
         """Возвращает колличество затраченных каллорий при беге"""
-        # Коэффициенты для расчета потраченных при беге каллорий
 
         spent_calories = (
             (self.COEFF_CALORIE_1 * self.get_mean_speed()
              - self.COEFF_CALORIE_2)
-            * self.weight / self.M_IN_KM * (self.duration * 60)
+            * self.weight / self.M_IN_KM * (self.duration * self.MIN_IN_H)
         )
         return spent_calories
 
@@ -102,7 +103,7 @@ class SportsWalking(Training):
         spent_calories = (
             (self.COEFF_CALORIE_1 * self.weight + (self.get_mean_speed()
              ** self.COEFF_CALORIE_3 // self.height) * self.COEFF_CALORIE_2
-             * self.weight) * (self.duration * 60)
+             * self.weight) * (self.duration * self.MIN_IN_H)
         )
         return spent_calories
 
@@ -142,14 +143,15 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    workout_type_dict = {'SWM': Swimming,
-                         'RUN': Running,
-                         'WLK': SportsWalking}
+    workout_type_dict: Dict[str, Type[Training]] = {
+        'SWM': Swimming,
+        'RUN': Running,
+        'WLK': SportsWalking
+    }
     # Проверка типа тренировки
-    if workout_type in workout_type_dict:
-        return workout_type_dict[workout_type](*data)
-    else:
-        print('Неподдерживаемый тип тренировки')
+    if workout_type not in workout_type_dict.keys():
+        raise ValueError('Неподдерживаемый тип тренировки')
+    return workout_type_dict[workout_type](*data)
 
 
 def main(training: Training) -> None:
