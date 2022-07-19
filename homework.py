@@ -1,5 +1,5 @@
 from dataclasses import asdict, dataclass
-from typing import Dict, Type
+
 
 @ dataclass
 class InfoMessage:
@@ -17,7 +17,7 @@ class InfoMessage:
         'Ср. скорость: {:.3f} км/ч; '
         'Потрачено ккал: {:.3f}.'
     )
- 
+
     def get_message(self) -> str:
         """Получить строку сообщения."""
         return self.MSG_STRING.format(*asdict(self).values())
@@ -25,7 +25,7 @@ class InfoMessage:
 
 class Training:
     """Базовый класс тренировки."""
-    
+
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
 
@@ -36,7 +36,6 @@ class Training:
         self.action = action
         self.duration = duration
         self.weight = weight
-        
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -74,9 +73,10 @@ class Running(Training):
     def get_spent_calories(self) -> float:
         """Возвращает колличество затраченных каллорий при беге"""
         # Коэффициенты для расчета потраченных при беге каллорий
-        
+
         spent_calories = (
-            (self.COEFF_CALORIE_1 * self.get_mean_speed() - self.COEFF_CALORIE_2)
+            (self.COEFF_CALORIE_1 * self.get_mean_speed()
+             - self.COEFF_CALORIE_2)
             * self.weight / self.M_IN_KM * (self.duration * 60)
         )
         return spent_calories
@@ -109,11 +109,11 @@ class SportsWalking(Training):
 
 class Swimming(Training):
     """Тренировка: плавание."""
-    
+
     LEN_STEP: float = 1.38
     COEFF_CALORIE_1: float = 1.1
     COEFF_CALORIE_2: float = 2
-    
+
     def __init__(self,
                  action: int,
                  duration: float,
