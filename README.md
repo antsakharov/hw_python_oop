@@ -4,7 +4,9 @@
 
 ## Инструкция по развёртыванию
 Клонируйте репозиторий:
-```csharp git clone git@github.com:antsakharov/hw_python_oop.git```
+```csharp
+  git clone git@github.com:antsakharov/hw_python_oop.git
+```
 Установите и активируйте виртуальное окружение:
 для MacOS
 ```csharp python3 -m venv venv```
