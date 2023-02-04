@@ -1,2 +1,7 @@
 # Модуль фитнес-трекера
-```csharp git clone git@github.com:antsakharov/hw_python_oop.git```
+```csharp
+    public static void Log(string message)
+    {
+        _logger.LogInformation(message);
+    }
+```
