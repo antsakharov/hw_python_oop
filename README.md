@@ -1,5 +1,6 @@
 # Модуль фитнес-трекера
 3.	Инструкция по развёртыванию 
+
 •	Клонируйте репозиторий:
 ```csharp 
 git clone git@github.com:antsakharov/hw_python_oop.git
