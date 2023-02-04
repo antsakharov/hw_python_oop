@@ -17,6 +17,10 @@
 
 Закрепить навыки владения парадигмой ООП
 
+•	**Стек:**
+
+Python 3.10
+
 ## Инструкция по развёртыванию проекта
 
 •	**Клонируйте репозиторий:**
@@ -51,6 +55,12 @@ source venv/Scripts/activate
 
 ```csharp 
 pip install -r requirements.txt
+```
+
+•	**Выполните миграции:**
+
+```csharp 
+python manage.py migrate
 ```
 
 
