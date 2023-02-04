@@ -27,7 +27,7 @@ git clone git@github.com:antsakharov/hw_python_oop.git
 
 •	**Установите и активируйте виртуальное окружение:**
 
-**для MacOS**
+**для Linux и MacOS**
 
 ```csharp 
 python3 -m venv venv
